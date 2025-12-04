@@ -1,4 +1,3 @@
-import string
 from collections import Counter
 
 class CriptoanalisisVigenere:
@@ -29,16 +28,12 @@ class CriptoanalisisVigenere:
         return texto_formateado 
 
     def vigenere(self, mensaje: str, clave: str, cifrado: bool) -> str:
-        """
-        Cifra o descifra un mensaje usando el cifrado Vigenère.
-        """
-        # Se llama a formateoDeTexto usando self
         clave_formateada = self.formateoDeTexto(clave)
         if not clave_formateada:
             return mensaje
 
         longitudClave = len(clave_formateada)
-        resultado = []
+        resultado = ""
         
         for i in range(len(mensaje)):
             letraMensaje = mensaje[i]
@@ -50,11 +45,11 @@ class CriptoanalisisVigenere:
             if cifrado:
                 valorCifrado = (valorLetraMensaje + valorLetraClave) % self.LONGITUD_ALFABETO  
                 letraCifrada = self.ALFABETO[valorCifrado]
-                resultado.append(letraCifrada)
+                resultado+=(letraCifrada)
             else:
                 valorDescifrado = (valorLetraMensaje - valorLetraClave) % self.LONGITUD_ALFABETO  
                 letraDescifrada = self.ALFABETO[valorDescifrado]  
-                resultado.append(letraDescifrada)
+                resultado+=(letraDescifrada)
 
         return resultado
     
