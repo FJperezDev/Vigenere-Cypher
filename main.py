@@ -1,49 +1,34 @@
 import string
 from collections import Counter
 
-# --- Constantes Globales (Se mantienen fuera para que tu lógica original funcione) ---
-ALFABETO = [
-    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'GN',
-    'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
-]
-LONGITUD_ALFABETO = 27
-
-FRECUENCIAS_ESPANOLAS = {
-    'A': 12.53, 'B': 1.42, 'C': 4.68, 'D': 5.86, 'E': 13.68, 'F': 0.69,
-    'G': 1.01, 'H': 0.70, 'I': 6.25, 'J': 0.44, 'K': 0.02, 'L': 4.97,
-    'M': 3.15, 'N': 6.71, 
-    'GN': 0.31, 
-    'O': 8.68, 'P': 2.51, 'Q': 0.88,
-    'R': 6.87, 'S': 7.98, 'T': 4.63, 'U': 3.93, 'V': 0.90, 'W': 0.01,
-    'X': 0.22, 'Y': 0.90, 'Z': 0.52
-}
-
 class CriptoanalisisVigenere:
     def __init__(self):
-        self.ALFABETO = ALFABETO
-        self.LONGITUD_ALFABETO = len(self.ALFABETO)
+        self.ALFABETO = [
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 
+            'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+        ]
 
-        # Frecuencias del inglés (formato decimal)
-        self.FRECUENCIAS_INGLES = {
-            'A': 0.0817, 'B': 0.0149, 'C': 0.0278, 'D': 0.0425, 'E': 0.1270, 'F': 0.0223,
-            'G': 0.0202, 'H': 0.0609, 'I': 0.0697, 'J': 0.0015, 'K': 0.0077, 'L': 0.0403,
-            'M': 0.0241, 'N': 0.0675, 'O': 0.0751, 'P': 0.0193, 'Q': 0.0010, 'R': 0.0599,
-            'S': 0.0633, 'T': 0.0906, 'U': 0.0276, 'V': 0.0098, 'W': 0.0236, 'X': 0.0015,
-            'Y': 0.0197, 'Z': 0.0007, 'GN': 0.0001
+        self.LONGITUD_ALFABETO = len(self.ALFABETO)
+        # https://es.sttmedia.com/frecuencias-de-letras-ingles
+        self.FRECUENCIAS = {
+            'A': 8.34, 'B': 1.54, 'C': 2.73, 'D': 4.14, 'E': 12.6, 'F': 2.03,
+            'G': 1.92, 'H': 6.11, 'I': 6.71, 'J': 0.23, 'K': 0.87, 'L': 4.24,
+            'M': 2.53, 'N': 6.80, 'O': 7.7, 'P': 1.66, 'Q': 0.09, 'R': 5.68,
+            'S': 6.11, 'T': 9.37, 'U': 2.85, 'V': 1.06, 'W': 2.34, 'X': 0.20,
+            'Y': 2.04, 'Z': 0.06
         }
 
-    # SE AGREGO 'self' A TODOS LOS METODOS
-    def formateoDeTexto(self, texto: str) -> list[str]:
+    def formateoDeTexto(self, texto: str) -> str:
         """Limpia el texto de entrada, convirtiéndolo a mayúsculas y filtrando solo caracteres del alfabeto español."""
-        texto_formateado = list()
-        for char in texto.upper():
-            if char == 'Ñ':
-                char = 'GN'
-            if char in ALFABETO:
-                texto_formateado.append(char)
+        texto_formateado = ""
+        for letra in texto.upper():
+            if letra == 'Ñ':
+                texto_formateado += 'GN'
+            elif letra in self.ALFABETO:
+                texto_formateado += letra
         return texto_formateado 
 
-    def vigenere(self, mensaje: list[str], clave: str, cifrado: bool) -> list[str]:
+    def vigenere(self, mensaje: str, clave: str, cifrado: bool) -> str:
         """
         Cifra o descifra un mensaje usando el cifrado Vigenère.
         """
@@ -59,16 +44,16 @@ class CriptoanalisisVigenere:
             letraMensaje = mensaje[i]
             letraClave = clave_formateada[i % longitudClave]   
             
-            valorLetraMensaje = ALFABETO.index(letraMensaje)
-            valorLetraClave = ALFABETO.index(letraClave)
+            valorLetraMensaje = self.ALFABETO.index(letraMensaje)
+            valorLetraClave = self.ALFABETO.index(letraClave)
             
             if cifrado:
-                valorCifrado = (valorLetraMensaje + valorLetraClave) % LONGITUD_ALFABETO  
-                letraCifrada = ALFABETO[valorCifrado]
+                valorCifrado = (valorLetraMensaje + valorLetraClave) % self.LONGITUD_ALFABETO  
+                letraCifrada = self.ALFABETO[valorCifrado]
                 resultado.append(letraCifrada)
             else:
-                valorDescifrado = (valorLetraMensaje - valorLetraClave) % LONGITUD_ALFABETO  
-                letraDescifrada = ALFABETO[valorDescifrado]  
+                valorDescifrado = (valorLetraMensaje - valorLetraClave) % self.LONGITUD_ALFABETO  
+                letraDescifrada = self.ALFABETO[valorDescifrado]  
                 resultado.append(letraDescifrada)
 
         return resultado
@@ -77,7 +62,7 @@ class CriptoanalisisVigenere:
         counts = Counter(texto)
         tamanioTexto = len(texto) 
         
-        if tamanioTexto <= 1: return 0 # Pequeña protección contra división por cero
+        if tamanioTexto <= 1: return 0 
 
         numerator = sum(n * (n - 1) for n in counts.values())
         denominator = tamanioTexto * (tamanioTexto - 1)
@@ -92,7 +77,7 @@ class CriptoanalisisVigenere:
         conteoGeneral = Counter(text)
         valorChiCuadrado = 0.0
 
-        for letra, frecuenciaEsperada in FRECUENCIAS_ESPANOLAS.items():
+        for letra, frecuenciaEsperada in self.FRECUENCIAS.items():
             conteoParticular = conteoGeneral.get(letra, 0)
             conteoEsperado = N * (frecuenciaEsperada / 100)
 
@@ -113,7 +98,6 @@ class CriptoanalisisVigenere:
             for i, caracter in enumerate(textoCifrado):
                 columnas[i % longitud] += caracter
             
-            # Se llama a calcularIndiceDeCoincidencias usando self
             icPromedio = sum(self.calcularIndiceDeCoincidencias(col) for col in columnas) / longitud
             print(f"Longitud {longitud:2}: IC promedio = {icPromedio:.4f}")
             if icPromedio > mejorIC:
@@ -134,11 +118,9 @@ class CriptoanalisisVigenere:
         for i, col in enumerate(columnas):
             mejorChi = float('inf')
             mejorLetra = ''
-            for indice in range(LONGITUD_ALFABETO):
-                letraIndice = ALFABETO[indice]
-                # Se llama a vigenere usando self
-                colDescifrada = self.vigenere(list(col), letraIndice, cifrado = False)
-                # Se llama a calcularChiCuadrado usando self
+            for indice in range(self.LONGITUD_ALFABETO):
+                letraIndice = self.ALFABETO[indice]
+                colDescifrada = self.vigenere(col, letraIndice, cifrado = False)
                 valorChi = self.calcularChiCuadrado(colDescifrada) 
                 
                 if valorChi < mejorChi:
@@ -172,41 +154,31 @@ GOZGTGWXNRHERBHPHGSIWXNPQMJVBCNEIDVVOAGLPONAPWYPXKEFKOC
 MQTRTIDZBNQKCPLTTNOBXMGLNRRDNNNQKDPLTLNSUTAXMNPTXMGEZKA
 EIKAGQ"""
 
-TEXTO_EJEMPLO_CLARO = "Este es un mensaje de prueba para el cifrado Vigenere, mañana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, mañana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, mañana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, mañana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, mañana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, mañana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, mañana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, mañana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, mañana veremos si funciona."
+TEXTO_EJEMPLO_CLARO = "Este es un mensaje de prueba para el cifrado Vigenere, magnana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, magnana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, magnana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, magnana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, magnana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, magnana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, magnana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, magnana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, magnana veremos si funciona."
 
 def main():
-    # 1. Instanciar la clase
     analizador = CriptoanalisisVigenere()
 
-    # --- Ejemplo de cifrado y descifrado ---
     print("--- EJEMPLO DE CIFRADO/DESCIFRADO ---")
     clave_ejemplo = "SECRETO"
     
-    # 2. Llamar a los métodos usando la instancia 'analizador'
     texto_ejemplo_limpio = analizador.formateoDeTexto(TEXTO_EJEMPLO_CLARO)
     
-    print(f"Texto original: {''.join(texto_ejemplo_limpio)}")
-    print(f"Clave: {clave_ejemplo}")
+    print(f"\nTexto original formateado: {''.join(texto_ejemplo_limpio)}")
+    print(f"\nClave: {clave_ejemplo}")
 
-    texto_cifrado_ejemplo = analizador.vigenere(texto_ejemplo_limpio, clave_ejemplo, True)
-    print(f"Texto cifrado: {''.join(texto_cifrado_ejemplo)}")
+    texto_cifrado_ejemplo = analizador.vigenere(texto_ejemplo_limpio, clave_ejemplo, cifrado=True)
+    print(f"\nTexto cifrado: {''.join(texto_cifrado_ejemplo)}")
 
-    texto_descifrado_ejemplo = analizador.vigenere(texto_cifrado_ejemplo, clave_ejemplo, False)
-    print(f"Texto descifrado: {''.join(texto_descifrado_ejemplo)}\n")
+    texto_descifrado_ejemplo = analizador.vigenere(texto_cifrado_ejemplo, clave_ejemplo, cifrado=False)
+    print(f"\nTexto descifrado: {''.join(texto_descifrado_ejemplo)}\n")
 
-    # --- Análisis para romper el cifrado de TEXTOAROMPER ---
-    print("--- ANÁLISIS DE TEXTOAROMPER ---")
+    print("\n--- ANÁLISIS DE TEXTOAROMPER ---")
     
     textoLimpioARomper = analizador.formateoDeTexto(TEXTOAROMPER)
-    
-    # Llamamos a longitudClave a través de la instancia
     longitud = analizador.longitudClave(textoLimpioARomper)
-    
-    # Llamamos a encontrarClave a través de la instancia
     clave = analizador.encontrarClave(textoLimpioARomper, longitud)
-    
-    # Desciframos usando la instancia
-    texto = analizador.vigenere(textoLimpioARomper, clave, False)
+    texto = analizador.vigenere(textoLimpioARomper, clave, cifrado=False)
     
     print("Texto final descifrado de TEXTOAROMPER:")
     for letra in texto:
