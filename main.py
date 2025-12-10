@@ -149,7 +149,7 @@ GOZGTGWXNRHERBHPHGSIWXNPQMJVBCNEIDVVOAGLPONAPWYPXKEFKOC
 MQTRTIDZBNQKCPLTTNOBXMGLNRRDNNNQKDPLTLNSUTAXMNPTXMGEZKA
 EIKAGQ"""
 
-TEXTO_EJEMPLO_CLARO = "Este es un mensaje de prueba para el cifrado Vigenere, magnana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, magnana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, magnana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, magnana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, magnana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, magnana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, magnana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, magnana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, magnana veremos si funciona."
+TEXTO_EJEMPLO_CLARO = "Este es un mensaje de prueba para el cifrado Vigenere, mañana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, mañana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, mañana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, mañana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, mañana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, mañana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, mañana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, mañana veremos si funciona.Este es un mensaje de prueba para el cifrado Vigenere, mañana veremos si funciona."
 
 def main():
     analizador = CriptoanalisisVigenere()
